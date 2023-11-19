@@ -7,14 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
-        
+
+
         <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
             <TextBlock Text="Select Game Mode:" />
             <RadioButton Name="rbSimpleMode" Content="Simple" Checked="RadioButton_Checked_Game_Mode" IsChecked="True" />
             <RadioButton Name="rbGeneralMode" Content="General" Checked="RadioButton_Checked_Game_Mode" />
         </StackPanel>
-        
+
 
         <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
             <TextBlock Text="Select Board Size:" />
@@ -32,18 +32,27 @@
 
         <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="229*" />
+                <ColumnDefinition Width="76*"/>
+                <ColumnDefinition Width="129*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Vertical">
-                <Label Name="lblPlayer1" Content="Blue Player:" />
-                <TextBlock Name="txtPlayer1Score" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="110,10,0,0"/>
-                <RadioButton Name="rbPlayer1S" Content="S" Checked="RadioButton_Checked" />
-                <RadioButton Name="rbPlayer1O" Content="O" Checked="RadioButton_Checked" />
+            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="-300,152,300,-152">
+                <Label x:Name="lblPlayer1" Content="Blue Player:"/>
+                <TextBlock x:Name="txtPlayer1Score" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="110,10,0,0"/>
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton x:Name="rbPlayer1Human" Content="Human" Checked="RadioButton_PlayerType_Checked" GroupName="player1Type"/>
+                    <RadioButton x:Name="rbPlayer1Computer" Content="Computer" Checked="RadioButton_PlayerType_Checked" GroupName="player1Type"/>
+                </StackPanel>
+                <RadioButton x:Name="rbPlayer1S" Content="S" Checked="RadioButton_Checked" />
+                <RadioButton x:Name="rbPlayer1O" Content="O" Checked="RadioButton_Checked" />
             </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Vertical">
+            <StackPanel Grid.Column="2" Orientation="Vertical" Margin="220,152,-300,-152">
                 <Label Name="lblPlayer2" Content="Red Player:" />
                 <TextBlock Name="txtPlayer2Score" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="110,10,0,0"/>
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Name="rbPlayer2Human" Content="Human" Checked="RadioButton_PlayerType_Checked" GroupName="player2Type" />
+                    <RadioButton Name="rbPlayer2Computer" Content="Computer" Checked="RadioButton_PlayerType_Checked" GroupName="player2Type" />
+                </StackPanel>
                 <RadioButton Name="rbPlayer2S" Content="S" Checked="RadioButton_Checked" />
                 <RadioButton Name="rbPlayer2O" Content="O" Checked="RadioButton_Checked" />
             </StackPanel>
@@ -61,9 +70,10 @@
 
 
 
-        <Grid Name="GameGrid" Margin="10,80,10,10">
+        <Grid Name="GameGrid" Margin="10,80,10,10" Loaded="GameGrid_Loaded">
+         
 
-            <Grid  Name="GameBoardGrid" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50">
+            <Grid  Name="GameBoardGrid" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50" Tag="{Binding CellPosition}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="400" />
 
@@ -79,11 +89,12 @@
                 VerticalAlignment="Center" Width="500" Height="500">
                 <!-- You can draw SOS lines here -->
             </Canvas>
+
         </Grid>
-        
+
         <Button x:Name="btnStartGame" Content="Start Game" Click="StartGame_Click" FontFamily="Arial Black" FontSize="16"
             VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,10"/>
         <TextBlock Name="txtCurrentPlayerTurn" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" />
     </Grid>
-    
+
 </Window>

@@ -41,12 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\GenPlayer.cs" />
     <Compile Include="Implementation\Board.cs" />
     <Compile Include="Implementation\ComputerPlayer.cs" />
     <Compile Include="Implementation\Game.cs" />
     <Compile Include="Implementation\GeneralGameMode.cs" />
     <Compile Include="Implementation\GenericGameModeLogic.cs" />
-    <Compile Include="Implementation\Player.cs" />
+    <Compile Include="Implementation\HumenPlayer.cs" />
     <Compile Include="Implementation\SimpleGameMode.cs" />
     <Compile Include="Implementation\SOSLine.cs" />
     <Compile Include="Implementation\SOSLineType.cs" />

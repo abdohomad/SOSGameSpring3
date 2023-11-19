@@ -45,18 +45,26 @@ namespace SOSGameLogic.Implementation
 
             int boardHeight = board.GetLength(0);
             int miniCellToTheTop = boardHeight - 2;
-            if ((row < miniCellToTheTop) && (board[row, col] == 'S') &&
-               (board[row + 1, col] == 'O') && (board[row + 2, col] == 'S'))
-             
-            {
-                return true;
 
-            }
-            /*if ((row >= 1 && row <= boardHeight - 1) && board[row, col] == 'O' && board[row - 1, col] == 'S' && board[row + 1, col] == 'S')
+            // Check for potential SOS formations vertically
+            if (row < miniCellToTheTop && row + 2 < boardHeight &&
+                board[row, col] == 'S' &&
+                board[row + 1, col] == 'O' &&
+                board[row + 2, col] == 'S')
             {
-                return true;
-            }*/
-            return false;
+                return true; // SOS formation detected
+            }
+
+            if (row >= 1 && row <= boardHeight - 1 &&
+                row - 1 >= 0 && row + 1 < boardHeight &&
+                board[row, col] == 'O' &&
+                board[row - 1, col] == 'S' &&
+                board[row + 1, col] == 'S')
+            {
+                return true; // SOS formation detected
+            }
+
+            return false; // No SOS formation detected
 
         }
         internal bool CheckVerticalUpward(char[,] board, int row, int col)
@@ -125,16 +133,21 @@ namespace SOSGameLogic.Implementation
             int boardHeight = board.GetLength(0);
             int boardWidth = board.GetLength(1);
 
-            if (col >= 2 && row <= boardHeight - 3 && col <= boardWidth - 3)
-            {
-                if (board[row, col] == 'S' && board[row - 1, col + 1] == 'O' && board[row - 2, col + 2] == 'S')
+            // Check if there are enough cells to the bottom left to form an SOS
+            if (row >= 2 && col >= 2 && row <= boardHeight - 1 && col <= boardWidth - 1)
+            {//2
+                // Check for SOS formation
+                if (board[row, col] == 'S' &&
+                    board[row - 1, col - 1] == 'O' &&
+                    board[row - 2, col - 2] == 'S')
                 {
-                    return true;
+                    return true; // SOS formation detected
                 }
             }
 
-            return false;
+            return false; // No SOS formation detected
         }
+
 
 
         public SOSLine DetectSOSLine(char[,] board,  int row, int col,  IPlayer currentPlayer)

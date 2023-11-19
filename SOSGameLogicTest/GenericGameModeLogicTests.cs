@@ -20,7 +20,7 @@ namespace SOSGameLogicTest
             int row = 2;
             int col = 1;
             var gameMode = new SimpleGameMode();
-            IPlayer currentPlayer = new Player('S');
+            IPlayer currentPlayer = new HumanPlayer('S');
 
             // Act
             SOSLine sosLine = gameMode.DetectSOSLine(board, row, col, currentPlayer);
@@ -49,7 +49,7 @@ namespace SOSGameLogicTest
             int row = 2;
             int col = 0;
             var gameMode = new SimpleGameMode();
-            IPlayer currentPlayer = new Player('O');
+            IPlayer currentPlayer = new HumanPlayer('O');
 
             // Act
             SOSLine sosLine = gameMode.DetectSOSLine(board, row, col, currentPlayer);

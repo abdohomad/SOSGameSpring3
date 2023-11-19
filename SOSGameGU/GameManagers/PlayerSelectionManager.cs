@@ -1,6 +1,7 @@
 ﻿using SOSGameLogic.Interfaces;
 using System.Windows.Controls;
 using System.Windows;
+using SOSGameLogic.Implementation;
 
 namespace SOSGameGU.GameManagers
 {
@@ -74,5 +75,61 @@ namespace SOSGameGU.GameManagers
 
             mainWindow.btnStartGame.IsEnabled = mainWindow.player1SymbolSelected || mainWindow.player2SymbolSelected;
         }
+
+        public void RadioButton_PlayerType_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender is RadioButton radioButton)
+            {
+                if (!mainWindow.game.IsGameOver())
+                {
+                    MessageBox.Show("Cannot change player type once the game has started.");
+                    radioButton.IsChecked = false;
+                    return;
+                }
+                if (radioButton.Name == "rbPlayer2Human")
+                {
+                    // Enable "S" and "O" for human player
+                    mainWindow.rbPlayer2S.IsEnabled = true;
+                    mainWindow.rbPlayer2O.IsEnabled = true;
+                }
+                else if (radioButton.Name == "rbPlayer2Computer")
+                {
+                    // Disable "S" and "O" for computer player
+                    mainWindow.rbPlayer2S.IsEnabled = false;
+                    mainWindow.rbPlayer2O.IsEnabled = false;
+                }
+                if (radioButton.Name == "rbPlayer1Human")
+                {
+                    // Enable "S" and "O" for human player
+                    mainWindow.rbPlayer1S.IsEnabled = true;
+                    mainWindow.rbPlayer1O.IsEnabled = true;
+                }
+                else if (radioButton.Name == "rbPlayer1Computer")
+                {
+                    // Disable "S" and "O" for computer player
+                    mainWindow.rbPlayer1S.IsEnabled = false;
+                    mainWindow.rbPlayer1O.IsEnabled = false;
+                }
+
+                if (radioButton.Name == "rbPlayer1Human")
+                {
+                    mainWindow.player1 = new HumanPlayer(mainWindow.playerSymbol);
+                }
+                else if (radioButton.Name == "rbPlayer1Computer")
+                {
+                    mainWindow.player1 = new ComputerPlayer();
+                }
+
+                if (radioButton.Name == "rbPlayer2Human")
+                {
+                    mainWindow.player2 = new HumanPlayer(mainWindow.playerSymbol);
+                }
+                else if (radioButton.Name == "rbPlayer2Computer")
+                {
+                    mainWindow.player2 = new ComputerPlayer();
+                }
+            }
+        }
+
     }
 }

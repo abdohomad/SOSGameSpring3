@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace SOSGameLogic.Interfaces
 {
     public interface IPlayer
@@ -8,5 +10,9 @@ namespace SOSGameLogic.Interfaces
         int GetScore();
         void SetPlayerSymbol(char symbol);
         void ResetScore();
+
+        void MakeMove(IBoard board, int row, int col);
+
+
     }
 }

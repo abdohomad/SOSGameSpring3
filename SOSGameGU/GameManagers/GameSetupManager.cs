@@ -1,6 +1,7 @@
 ﻿using SOSGameLogic.Implementation;
 using SOSGameLogic.Interfaces;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -13,7 +14,7 @@ namespace SOSGameGU.GameManagers
         }
 
         // Method to start the game and set up the game board grid.
-        public void StartGame(Grid GameBoardGrid, MainWindow mainWindow, int boardSize)
+        public void StartGame(Grid GameBoardGrid, MainWindow mainWindow, int boardSize, Canvas GameCanvas)
         {
             // Get the dimensions of the game board grid.
             double gridWidth = GameBoardGrid.ActualWidth;
@@ -52,6 +53,8 @@ namespace SOSGameGU.GameManagers
 
             // Create a new game instance with the specified board size, players, and game mode.
             mainWindow.game = new Game(boardSize, mainWindow.player1, mainWindow.player2, mainWindow._modeLogic);
+            
+
         }
         public void ClearGameBoard(Grid GameBoardGrid)
         {

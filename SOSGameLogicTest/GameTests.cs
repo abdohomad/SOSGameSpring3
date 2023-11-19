@@ -11,8 +11,8 @@ namespace SOSGameLogicTest
         public void IsCellOccupied_WhenCellIsEmpty_ShouldReturnFalse()
         {
             // Arrange
-            IPlayer player1 = new Player('X');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new HumanPlayer('X');
+            IPlayer player2 = new HumanPlayer('O');
             modeLogic = new SimpleGameMode();
             IGame game = new Game(3, player1, player2, modeLogic);
 
@@ -27,8 +27,8 @@ namespace SOSGameLogicTest
         public void MakeMoveValidMoveShouldPlaceSymbolAndSwitchPlayer()
         {
             // Arrange
-            IPlayer player1 = new Player('X');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new HumanPlayer('X');
+            IPlayer player2 = new HumanPlayer('O');
             modeLogic = new SimpleGameMode();
             IGame game = new Game(3, player1, player2, modeLogic);
 
@@ -44,8 +44,8 @@ namespace SOSGameLogicTest
         public void SwitchPlayerShouldChangeCurrentPlayer()
         {
             // Arrange
-            IPlayer player1 = new Player('X');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new HumanPlayer('X');
+            IPlayer player2 = new HumanPlayer('O');
             modeLogic = new SimpleGameMode();
             IGame game = new Game(3, player1, player2, modeLogic);
 

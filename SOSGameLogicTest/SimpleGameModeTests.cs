@@ -1,11 +1,5 @@
 ﻿using SOSGameLogic.Implementation;
 using SOSGameLogic.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace SOSGameLogicTest
 {
@@ -16,8 +10,8 @@ namespace SOSGameLogicTest
         {
             // Arrange
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new HumanPlayer('S');
+            IPlayer player2 = new HumanPlayer('O');
             var gameMode = new SimpleGameMode();
 
             player1.IncreaseScore(3);
@@ -32,8 +26,8 @@ namespace SOSGameLogicTest
         {
             // Arrange
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new HumanPlayer('S');
+            IPlayer player2 = new ComputerPlayer();
             var gameMode = new SimpleGameMode();
             player2.IncreaseScore(3);
             bool isGameOver = gameMode.IsGameOver(board, player1, player2);
@@ -47,8 +41,8 @@ namespace SOSGameLogicTest
         {
             // Arrange
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new ComputerPlayer();
+            IPlayer player2 = new ComputerPlayer();
             var gameMode = new SimpleGameMode();
             bool isGameOver = gameMode.IsGameOver(board, player1, player2);
             Assert.False(isGameOver);
@@ -58,8 +52,8 @@ namespace SOSGameLogicTest
         public void PlayerHasWonShouldReturnFalseWhenNoPlayerWins()
         {
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new ComputerPlayer();
+            IPlayer player2 = new HumanPlayer('O');
             var gameMode = new SimpleGameMode();
             for (int row = 0; row < 3; row++)
             {
@@ -79,8 +73,8 @@ namespace SOSGameLogicTest
         {
             // Arrange
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('S');
+            IPlayer player1 = new HumanPlayer('S');
+            IPlayer player2 = new HumanPlayer('S');
             var gameMode = new SimpleGameMode();
 
             for (int row = 0; row < 2; row++)

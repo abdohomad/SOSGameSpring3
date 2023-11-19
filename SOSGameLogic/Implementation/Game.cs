@@ -14,7 +14,9 @@ namespace SOSGameLogic.Implementation
         private readonly List<Tuple<int, int>> playerMoves;
         private readonly List<SOSLine> detectedSOSLines;
         internal readonly IGenericGameModeLogic modeLogic;
-
+       
+       
+     
         public Game(int size, IPlayer player1, IPlayer player2, IGenericGameModeLogic modeLogic)
         {
             board = new Board(size);
@@ -24,37 +26,18 @@ namespace SOSGameLogic.Implementation
             playerMoves = new List<Tuple<int, int>>();
             detectedSOSLines = new List<SOSLine>();
             this.modeLogic = modeLogic;
+            
+     
         }
 
         public bool IsCellOccupied(int row, int col)
         {
             return board.GetSymbolAt(row, col) != ' ';
         }
-
-        public void MakeMove(int row, int col)
+        public bool IsGameOver()
         {
-            if (!IsGameOver() && board.IsValidMove(row, col))
-            {
-                char currentPlayerSymbol = currentPlayer.GetPlayerSymbol();
-                board.PlaceSymbol(row, col, currentPlayerSymbol);
-                Tuple<int, int> move = Tuple.Create(row, col);
-                playerMoves.Add(move);
-
-                
-                SOSLine sosLine = modeLogic.DetectSOSLine(board.GetBoard(),  row, col, currentPlayer);
-
-                if (sosLine != null)
-                {
-                    detectedSOSLines.Add(sosLine);
-                    currentPlayer.IncreaseScore(3);
-                }
-                else
-                {
-                    SwitchPlayer();
-                }
-            }
+            return modeLogic.IsGameOver(board, player1, player2);
         }
-
 
         public void SwitchPlayer()
         {
@@ -66,6 +49,41 @@ namespace SOSGameLogic.Implementation
             return currentPlayer;
         }
 
+        public void MakeMove(int row, int col)
+        {
+            if (!IsGameOver() && board.IsValidMove(row, col))
+            {
+
+                // currentPlayer is a reference to the IPlayer interface, and it's used to call the MakeMove method.
+                // Both ComputerPlayer and HumanPlayer, which implement IPlayer, can be substituted for currentPlayer without breaking
+                // the expected behavior of making a move on the game board.
+
+                currentPlayer.MakeMove(board, row, col);
+
+                // The MakeMove method is a part of the IPlayer interface, and it is open for extension
+                // by allowing different player types to implement their own logic for making moves.
+                // Adding a new type of player (e.g., creating a new class that implements IPlayer) does
+                // not require modifying the existing code. Instead, it extends the behavior through
+                // polymorphism and adherence to the IPlayer interface.
+
+
+                Tuple<int, int> move = Tuple.Create(row, col);
+                playerMoves.Add(move);
+                SOSLine sosLine = modeLogic.DetectSOSLine(board.GetBoard(), row, col, currentPlayer);
+                if (sosLine != null)
+                {
+                    detectedSOSLines.Add(sosLine);
+                    currentPlayer.IncreaseScore(3);
+                }
+                else
+                { 
+                    
+                    SwitchPlayer();
+                }
+                
+            }
+        }
+
 
         public List<SOSLine> GetDetectedSOSLines()
         {
@@ -73,16 +91,14 @@ namespace SOSGameLogic.Implementation
         }
 
        
-        public bool IsGameOver()
-        {
-            return modeLogic.IsGameOver(board, player1, player2);
-        }
-
         public char GetCurrentPlayerSymbol()
         {
             return currentPlayer.GetPlayerSymbol();
         }
 
-
+        public IBoard GetBoard()
+        {
+            return board;
+        }
     }
 }

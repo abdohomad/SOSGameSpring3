@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 
 namespace SOSGameLogic.Interfaces
@@ -13,5 +14,6 @@ namespace SOSGameLogic.Interfaces
         void MakeMove(int row, int col);
         void SwitchPlayer();
         List<SOSLine> GetDetectedSOSLines();
+        IBoard GetBoard();
     }
 }

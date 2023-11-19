@@ -4,14 +4,14 @@ using SOSGameLogic.Interfaces;
 
 namespace SOSGameLogicTest
 {
-    public class PlayerTests
+    public class HumenPlayerTests
     {
         [Fact]
         public void GetPlayerSymbol_ReturnsInitializedSymbol()
         {
             // Arrange
             char expectedSymbol = 'S';
-            IPlayer player = new Player(expectedSymbol);
+            IPlayer player = new HumanPlayer(expectedSymbol);
 
             // Act
             char actualSymbol = player.GetPlayerSymbol();
@@ -24,7 +24,7 @@ namespace SOSGameLogicTest
         public void GetScore_ReturnsZeroInitially()
         {
             // Arrange
-            IPlayer player = new Player('S');
+            IPlayer player = new HumanPlayer('S');
 
             // Act
             int score = player.GetScore();
@@ -37,7 +37,7 @@ namespace SOSGameLogicTest
         public void IncreaseScore_IncreasesScoreCorrectly()
         {
             // Arrange
-            IPlayer player = new Player('S');
+            IPlayer player = new HumanPlayer('S');
 
             // Act
             player.IncreaseScore(10);
@@ -51,7 +51,7 @@ namespace SOSGameLogicTest
         public void SetPlayerSymbol_SetsSymbolCorrectly()
         {
             // Arrange
-            IPlayer player = new Player('S');
+            IPlayer player = new HumanPlayer('S');
 
             // Act
             player.SetPlayerSymbol('O');

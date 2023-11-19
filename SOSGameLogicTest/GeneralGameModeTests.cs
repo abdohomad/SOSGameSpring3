@@ -11,8 +11,8 @@ namespace SOSGameLogicTest
         {
             // Arrange
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new HumanPlayer('S');
+            IPlayer player2 = new HumanPlayer('O');
             var gameMode = new GeneralGameMode();
             player1.IncreaseScore(3);
             for (int row = 0; row < 3; row++)
@@ -33,8 +33,8 @@ namespace SOSGameLogicTest
         {
             // Arrange
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new HumanPlayer('S');
+            IPlayer player2 = new HumanPlayer('O');
             var gameMode = new GeneralGameMode();
             player2.IncreaseScore(3);
            
@@ -56,8 +56,8 @@ namespace SOSGameLogicTest
         {
             // Arrange
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('O');
+            IPlayer player1 = new HumanPlayer('S');
+            IPlayer player2 = new HumanPlayer('O');
             var gameMode = new GeneralGameMode();
             bool isGameOver = gameMode.IsGameOver(board, player1, player2);
             Assert.False(isGameOver);
@@ -70,8 +70,8 @@ namespace SOSGameLogicTest
         {
             // Arrange
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('S');
+            IPlayer player1 = new HumanPlayer('S');
+            IPlayer player2 = new HumanPlayer('S');
             var gameMode = new GeneralGameMode();
             
             for (int row = 0; row < 2; row++)
@@ -92,8 +92,8 @@ namespace SOSGameLogicTest
         {
             // Arrange
             IBoard board = new Board(3);
-            IPlayer player1 = new Player('S');
-            IPlayer player2 = new Player('S');
+            IPlayer player1 = new HumanPlayer('S');
+            IPlayer player2 = new HumanPlayer('S');
             var gameMode = new GeneralGameMode();
             player1.IncreaseScore(9);
             player2.IncreaseScore(9);
