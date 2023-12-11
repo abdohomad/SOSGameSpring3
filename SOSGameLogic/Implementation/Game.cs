@@ -1,7 +1,6 @@
-﻿using SOSGameLogic.Interfaces;
+using SOSGameLogic.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SOSGameLogic.Implementation
 {
@@ -11,7 +10,7 @@ namespace SOSGameLogic.Implementation
         private IPlayer currentPlayer;
         private readonly IPlayer player1;
         private readonly IPlayer player2;
-        private readonly List<Tuple<int, int>> playerMoves;
+        private Tuple<int, int> playerMoves;
         private readonly List<SOSLine> detectedSOSLines;
         internal readonly IGenericGameModeLogic modeLogic;
        
@@ -23,11 +22,10 @@ namespace SOSGameLogic.Implementation
             this.player1 = player1;
             this.player2 = player2;
             currentPlayer = player1;
-            playerMoves = new List<Tuple<int, int>>();
+         
             detectedSOSLines = new List<SOSLine>();
             this.modeLogic = modeLogic;
-            
-     
+
         }
 
         public bool IsCellOccupied(int row, int col)
@@ -67,20 +65,24 @@ namespace SOSGameLogic.Implementation
                 // polymorphism and adherence to the IPlayer interface.
 
 
-                Tuple<int, int> move = Tuple.Create(row, col);
-                playerMoves.Add(move);
-                SOSLine sosLine = modeLogic.DetectSOSLine(board.GetBoard(), row, col, currentPlayer);
-                if (sosLine != null)
-                {
-                    detectedSOSLines.Add(sosLine);
-                    currentPlayer.IncreaseScore(3);
-                }
-                else
-                { 
-                    
-                    SwitchPlayer();
-                }
-                
+                playerMoves = Tuple.Create(row, col);
+              
+
+            }
+            
+        }
+
+        public void DetectSOS()
+        {
+            SOSLine sosLine = modeLogic.DetectSOSLine(board.GetBoard(), playerMoves.Item1, playerMoves.Item2, currentPlayer);
+            if (sosLine != null)
+            {
+                detectedSOSLines.Add(sosLine);
+                currentPlayer.IncreaseScore(3);
+            }
+            else
+            {
+                SwitchPlayer();
             }
         }
 
@@ -99,6 +101,11 @@ namespace SOSGameLogic.Implementation
         public IBoard GetBoard()
         {
             return board;
+        }
+
+        public Tuple<int, int> GetCurrentMove()
+        {
+            return playerMoves;
         }
     }
 }
