@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +13,9 @@ namespace SOSGameLogic.Interfaces
         bool IsGameOver();
         void MakeMove(int row, int col);
         void SwitchPlayer();
+        void DetectSOS();
         List<SOSLine> GetDetectedSOSLines();
         IBoard GetBoard();
+        Tuple<int, int> GetCurrentMove();
     }
 }
