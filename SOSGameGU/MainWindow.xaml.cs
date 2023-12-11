@@ -1,4 +1,4 @@
-﻿using SOSGameGU.GameManagers;
+using SOSGameGU.GameManagers;
 using SOSGameLogic.Implementation;
 using SOSGameLogic.Interfaces;
 using System;
@@ -19,6 +19,7 @@ namespace SOSGameGU
         public IPlayer currentPlayer;
         public string player1Name;
         public string player2Name;
+        public bool IsReplayMode { get; set; }
         public string currentPlayerTurnName;
         public int boardSize;
         public bool player1SymbolSelected = true;
@@ -30,6 +31,8 @@ namespace SOSGameGU
         public PlayerSelectionManager playerSelectionManager;
         public DrawSOSLineManager drawSOSLineManager;
         public ActiveGameManager activeGameManager;
+        public GameRecordManager gameRecordManager;
+        //public ReplayGameManager replayGameManager;
         public DispatcherTimer gameTimer;
 
         // Constructor
@@ -51,6 +54,9 @@ namespace SOSGameGU
             drawSOSLineManager = new DrawSOSLineManager();
             activeGameManager = new ActiveGameManager(drawSOSLineManager);
             _modeLogic = new SimpleGameMode();
+            gameRecordManager = new GameRecordManager();
+            //replayGameManager = new ReplayGameManager(this);
+            IsReplayMode = false;
             game = new Game(boardSize, player1, player2, _modeLogic);
             gameTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
             gameTimer.Tick += GameTimer_Tick;
@@ -143,17 +149,29 @@ namespace SOSGameGU
         // Event handler for cell button click
         public async  void Cell_Click(object sender, RoutedEventArgs e)
         {
-            if(game.GetCurrentPlayer() is HumanPlayer humanPlayer)
+            if (IsReplayMode)
+            {
+                return; // Skip cell clicks during replay
+            }
+            if (game.GetCurrentPlayer() is HumanPlayer humanPlayer)
             {
                 activeGameManager.Cell_Click(sender, GameBoardGrid, this, GameCanvas, humanPlayer);
+              
                 await DelayAsync(3000);
             }
             else if (game.GetCurrentPlayer() is ComputerPlayer computerPlayer)
             {
                  activeGameManager.HandleComputerMoves(this, GameBoardGrid, GameCanvas, computerPlayer);
                 activeGameManager.CheckGameState(this);
+                
 
                 await DelayAsync(3000);
+            }
+            if (RecordGameChecked)
+            {
+                // Save the records to JSON
+                gameRecordManager.SaveRecordsToJson();
+
             }
         }
 
@@ -166,26 +184,43 @@ namespace SOSGameGU
         // Event handler for the game timer tick
         private async void GameTimer_Tick(object sender, EventArgs e)
         {
+
+            if (game != null && !IsReplayMode) // Check if 'game' is not null and not in replay mode
+            {
                 await HandleAutomaticMoves();
+            }
+
+
         }
 
         // Handle automatic moves for the computer player
         private async Task HandleAutomaticMoves()
         {
+            if (IsReplayMode)
+            {
+                return; // Skip cell clicks during replay
+            }
             while (!game.IsGameOver())
             {
                 if (game.GetCurrentPlayer() is ComputerPlayer computerPlayer)
                 {
+                    
                     activeGameManager.HandleComputerMoves(this, GameBoardGrid, GameCanvas, computerPlayer);
                     activeGameManager.CheckGameState(this);
+                    
                     await DelayAsync(5000);
                 }
                 else
                 {
                     break;
 
-
                 }
+            }
+            if (RecordGameChecked)
+            {
+                // Save the records to JSON
+                gameRecordManager.SaveRecordsToJson();
+                
             }
         }
 
@@ -200,5 +235,35 @@ namespace SOSGameGU
         {
             gameTimer.Start();
         }
+
+        public bool RecordGameChecked
+        {
+            get { return chkRecordGame.IsChecked.GetValueOrDefault(); }
+        }
+
+        private void ReplayGame_Click(object sender, RoutedEventArgs e)
+        {
+            //IsReplayMode = true;
+            //replayGameManager.ReplayGame_Click(sender, e);
+        }
+
+
+        public Button GetCellButtonFromPosition(int row, int col)
+        {
+            foreach (UIElement element in GameBoardGrid.Children)
+            {
+                if (element is Button cellButton)
+                {
+                    Tuple<int, int> cellPosition = (Tuple<int, int>)cellButton.Tag;
+                    if (cellPosition.Item1 == row && cellPosition.Item2 == col)
+                    {
+                        return cellButton;
+                    }
+                }
+            }
+
+            return null;
+        }
+
     }
 }
